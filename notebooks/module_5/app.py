@@ -51,6 +51,8 @@ def get_vector_db_retriever():
     )
     doc_splits = text_splitter.split_documents(ls_docs)
 
+    # Limit chunks to avoid Bedrock rate limiting (throttling)
+    doc_splits = doc_splits[:20]
     vectorstore = SKLearnVectorStore.from_documents(
         documents=doc_splits,
         embedding=embd,
